@@ -20,7 +20,7 @@ public class Expression implements Decoder {
     protected Decoder next;
 
     public Expression(String expression) {
-        parse(expression);
+        this.parse(expression);
     }
 
     public String getField() {
