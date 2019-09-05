@@ -145,21 +145,10 @@ public class Group implements Decoder {
     public String toString() {
         String result;
         
-        if (decoder instanceof Group)
-            result = String.format("(%s)", decoder);
-        else
-            result = decoder.toString();
-
-        if (next != null) {
-            String model;
-
-            if (next instanceof Group)
-                model = " %s (%s)"; 
-            else
-                model = " %s %s";
-
-            result = result.concat(String.format(model, logicalOperator, next));
-        }
+        result = String.format("(%s)", decoder);
+        
+        if (next != null)
+            result = String.format("%s %s %s", result, this.logicalOperator, this.next);
         
         return result;
     }

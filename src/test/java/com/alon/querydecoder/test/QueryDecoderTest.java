@@ -7,37 +7,14 @@ package com.alon.querydecoder.test;
 
 import com.alon.querydecoder.Decoder;
 import com.alon.querydecoder.QueryDecoder;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author paulo
  */
 public class QueryDecoderTest {
-    
-    public QueryDecoderTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
 
     @Test
     public void testResolvedStringLevelOne() {
@@ -48,27 +25,35 @@ public class QueryDecoderTest {
     
     @Test
     public void testResolvedStringLevelTwo() {
+        String query = "nome:Paulo";
+        String expected = "nome[EQ]:Paulo";
+        
+        assertEquals(expected, this.createDecoder(query).decode());
+    }
+    
+    @Test
+    public void testResolvedStringLevelThree() {
         String query = "nome[CT]:Paulo AND sobrenome[CT]:Alonso";
         
         assertEquals(query, this.createDecoder(query).decode());
     }
     
     @Test
-    public void testResolvedStringLevelThree() {
+    public void testResolvedStringLevelFour() {
         String query = "nome[CT]:Paulo OR sobrenome[CT]:Alonso";
         
         assertEquals(query, this.createDecoder(query).decode());
     }
     
     @Test
-    public void testResolvedStringLevelFour() {
+    public void testResolvedStringLevelFive() {
         String query = "nome[CT]:Paulo AND (sobrenome[CT]:Alonso OR idade[LTE]:40)";
         
         assertEquals(query, this.createDecoder(query).decode());
     }
     
     @Test
-    public void testResolvedStringLevelFive() {
+    public void testResolvedStringLevelSix() {
         String query = "nome[CT]:Paulo AND (sobrenome[CT]:Alonso OR idade[LTE]:40) AND profissao[EQ]:Programador";
         
         assertEquals(query, this.createDecoder(query).decode());

@@ -44,78 +44,6 @@ public class Expression implements Decoder {
     public Decoder getNext() {
         return next;
     }
-
-//    @Override
-//    public final Expression parse(String query) {
-//        // Armazena o índice dos operadores lógicos
-//        int and = query.indexOf(" AND ");
-//        int or  = query.indexOf(" OR ");
-//        
-//        // Se o índice for menor que zero, o operador não existe na expressão 
-//        // e por isso recebe o tamanho da string para ser o valor máximo
-//        and = and < 0 ? query.length() : and;
-//        or  = or < 0 ? query.length() : or;
-//        
-//        // Armazena o índice do primeiro operador lógico
-//        // Caso não exista operador lógico na expressão, armazena o comprimento da string
-//        int i;
-//        
-//        if (and < or) {
-//            i = and;
-//            this.logicalOperator = LogicalOperator.AND;
-//        } else if (or < and) {
-//            i = or;
-//            this.logicalOperator = LogicalOperator.OR;
-//        } else 
-//            i = query.length();
-//        
-//        // Isola a expressão atual
-//        String expression = query.substring(0, i).trim();
-//        
-//        // Retira a expressão da string
-//        if (and < or)
-//            query = query.substring(i + 5);
-//        else if (or < and)
-//            query = query.substring(i + 4);
-//        else
-//            query = query.substring(i);
-//
-//        // Obtém o atributo
-//        Pattern p = Pattern.compile("((\\w.*(?=:))(?<!\\]))|(\\w.*(?=\\[))");
-//        Matcher m = p.matcher(expression);
-//
-//        if (m.find())
-//            this.field = m.group();
-//
-//        // Obtém o operador
-//        String matchTypes = Arrays.asList(MatchType.values()).stream().map(item -> item.name()).collect(Collectors.joining("|"));
-//
-//        p = Pattern.compile("(?<=\\[)".concat(matchTypes).concat("(?=\\])"));
-//        m = p.matcher(expression);
-//
-//        if (m.find())
-//            this.matchType = MatchType.valueOf(m.group());
-//        else
-//            // Caso não tenha sido informado, ou o informado não seja válido, utiliza EQUALS
-//            this.matchType = MatchType.EQ;
-//
-//        // Obtém o valor
-//        p = Pattern.compile("(?<=:).*");
-//        m = p.matcher(expression);
-//
-//        if (m.find())
-//            this.value = m.group();
-//        
-//        // Verifica se existem mais expressões ou grupos a serem criados
-//        if (!query.trim().isEmpty()) {
-//            if (query.startsWith("("))
-//                this.next = new Group(query);
-//            else
-//                this.next = new Expression(query);
-//        }
-//        
-//        return this;
-//    }
     
     @Override
     public Expression parse(String expression) {
@@ -246,18 +174,10 @@ public class Expression implements Decoder {
     
     @Override
     public String toString() {
-        String result = String.format("%s[%s]:%s", field, matchType, value);
+        String result = String.format("%s[%s]:%s", this.field, this.matchType, this.value);
         
-        if (next != null) {
-            String model;
-            
-            if (next instanceof Group)
-                model = " %s (%s)"; 
-            else
-                model = " %s %s";
-            
-            result = result.concat(String.format(model, logicalOperator, next));
-        }
+        if (next != null)
+            result = String.format("%s %s %s", result, this.logicalOperator, this.next);
         
         return result;
     }
