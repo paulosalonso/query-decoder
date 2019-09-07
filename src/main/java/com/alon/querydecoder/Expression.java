@@ -46,7 +46,7 @@ public class Expression implements Decoder {
     }
     
     @Override
-    public Expression parse(String expression) {
+    public final Expression parse(String expression) {
         
         expression = this.normalize(expression);
         

@@ -1,13 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.alon.querydecoder.test.QueryDecoderTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 105.591 sec <<< FAILURE!
-com.alon.querydecoder.test.QueryDecoderTest.testResolvedStringLevelFive()  Time elapsed: 105.518 sec  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <nome[CT]:Paulo AND (sobrenome[CT]:Alonso OR idade[LTE]:40) AND profissao[EQ]:Programador> but was: <nome[CT]:Paulo AND (sobrenome[CT]:Alonso OR idade[LTE]:40 AND profissao[EQ]:Programador)>
-	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:508)
-	at com.alon.querydecoder.test.QueryDecoderTest.testResolvedStringLevelFive(QueryDecoderTest.java:74)
-
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.06 sec

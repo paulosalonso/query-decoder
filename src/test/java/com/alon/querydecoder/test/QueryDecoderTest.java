@@ -59,6 +59,14 @@ public class QueryDecoderTest {
         assertEquals(query, this.createDecoder(query).decode());
     }
     
+    @Test
+    public void testResolvedStringLevelSeven() {
+        String query = "nome[CT]:Paulo AND ((sobrenome[CT]:Alonso OR idade[LTE]:40) AND profissao:Programador)";
+        String expected = "nome[CT]:Paulo AND ((sobrenome[CT]:Alonso OR idade[LTE]:40) AND profissao[EQ]:Programador)";
+        
+        assertEquals(expected, this.createDecoder(query).decode());
+    }
+    
     private QueryDecoder<String> createDecoder(String query) {
         return new QueryDecoder<>(query, this::decoder);
     }

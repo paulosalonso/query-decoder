@@ -31,7 +31,7 @@ public class Group implements Decoder {
     }
     
     @Override
-    public Group parse(String expression) {
+    public final Group parse(String expression) {
         
         this.checkIfStartsWithParetheses(expression);
         
@@ -143,9 +143,7 @@ public class Group implements Decoder {
     
     @Override
     public String toString() {
-        String result;
-        
-        result = String.format("(%s)", decoder);
+        String result = String.format("(%s)", decoder);
         
         if (next != null)
             result = String.format("%s %s %s", result, this.logicalOperator, this.next);
