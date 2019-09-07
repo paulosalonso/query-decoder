@@ -45,15 +45,6 @@ public class SpringJpaSpecificationDecoder<T> extends QueryDecoder<Predicate> im
         return this.decode(root, criteriaBuilder);
     }
     
-    private Path<?> getAbsolutePath(Path<?> parent, List<String> props) {
-        Path<?> p = parent.get(props.remove(0));
-
-        if (!props.isEmpty())
-            p = getAbsolutePath(p, props);
-
-        return p;
-    }
-    
     public Predicate decode(Root<T> root, CriteriaBuilder criteriaBuilder) {
         if (this.decoder instanceof Group)
             return this.decode((Group) this.decoder, root, criteriaBuilder);
@@ -61,53 +52,25 @@ public class SpringJpaSpecificationDecoder<T> extends QueryDecoder<Predicate> im
         return this.decode((Expression) this.decoder, root, criteriaBuilder);
     }
     
-    private Predicate decode(
-            Group group, 
-            Root<T> root,
-            CriteriaBuilder criteriaBuilder
-    ) {
-        Predicate predicate;
-        
-        if (group.getDecoder() instanceof Group)
-            predicate = this.decode((Group) group.getDecoder(), root, criteriaBuilder);
-        else
-            predicate = this.decode((Expression) group.getDecoder(), root, criteriaBuilder);
-        
-        if (group.getNext() != null) {
-            Predicate nextPredicate;
-            
-            if (group.getNext() instanceof Group)
-                nextPredicate = this.decode((Group) group.getNext(), root, criteriaBuilder);
-            else
-                nextPredicate = this.decode((Expression) group.getNext(), root, criteriaBuilder);
-            
-            if (group.getLogicalOperator().equals(LogicalOperator.AND))
-                predicate = criteriaBuilder.and(predicate, nextPredicate);
-            else
-                predicate = criteriaBuilder.or(predicate, nextPredicate);    
-        }
-
-        return predicate;
+    private Predicate decode(Group group, Root<T> root, CriteriaBuilder criteriaBuilder) {
+        Predicate predicate = this.decode(group.getDecoder(), root, criteriaBuilder);
+        return this.decodeNext(predicate, group, root, criteriaBuilder);
     }
     
-    private Predicate decode(
-            Expression expression, 
-            Root<T> root,
-            CriteriaBuilder criteriaBuilder
-    ) {
+    private Predicate decode(Expression expression, Root<T> root, CriteriaBuilder criteriaBuilder) {
         Predicate predicate;
-        Path path = this.getAbsolutePath(root, new ArrayList<>(Arrays.asList(expression.getField().split("\\."))));
+        Path path = this.getPath(root, new ArrayList<>(Arrays.asList(expression.getField().split("\\."))));
         
         switch (expression.getMatchType()) {
             case BT :
-            	if (path.getJavaType().equals(Long.class)) {
-                        Long v1 = Long.valueOf(expression.getValue().split("-")[0]);
-                        Long v2 = Long.valueOf(expression.getValue().split("-")[1]);
-                        predicate = criteriaBuilder.between(path, v1, v2);
-            	} else
-                        predicate = criteriaBuilder.between(path, expression.getValue().split("-")[0], expression.getValue().split("-")[1]);
+                String[] values = expression.getValue().split("-");
+                
+            	if (path.getJavaType().equals(Long.class))
+                    predicate = criteriaBuilder.between(path, Long.valueOf(values[0]), Long.valueOf(values[1]));
+            	else
+                    predicate = criteriaBuilder.between(path, values[0], values[1]);
             		 
-            	break;
+                break;
             case CT : predicate = criteriaBuilder.like(path, "%".concat(expression.getValue()).concat("%")); break;
             case EQ : predicate = criteriaBuilder.equal(path, expression.getValue()); break;
             case GT : predicate = criteriaBuilder.gt(path, new BigDecimal(expression.getValue())); break;
@@ -118,21 +81,35 @@ public class SpringJpaSpecificationDecoder<T> extends QueryDecoder<Predicate> im
             default : predicate = criteriaBuilder.equal(path, expression.getValue());
         }
         
-        if (expression.getNext() != null) {
-            Predicate nextPredicate;
-            
-            if (expression.getNext() instanceof Expression)
-                nextPredicate = this.decode((Expression) expression.getNext(), root, criteriaBuilder);
-            else
-                nextPredicate = this.decode((Group) expression.getNext(), root, criteriaBuilder);
-                
-            if (expression.getLogicalOperator().equals(LogicalOperator.AND))
-                predicate = criteriaBuilder.and(predicate, nextPredicate);
-            else
-                predicate = criteriaBuilder.or(predicate, nextPredicate);
-        }
+        return this.decodeNext(predicate, expression, root, criteriaBuilder);
+    }
+    
+    private Predicate decode(Decoder decoder, Root<T> root, CriteriaBuilder criteriaBuilder) {
+        if (decoder instanceof Group)
+            return this.decode((Group) decoder, root, criteriaBuilder);
         
-        return predicate;
+        return this.decode((Expression) decoder, root, criteriaBuilder);
+    }
+    
+    private Predicate decodeNext(Predicate predicate, Decoder decoder, Root<T> root, CriteriaBuilder criteriaBuilder) {
+        if (decoder.getNext() == null)
+            return predicate;
+        
+        Predicate nextPredicate = this.decode(decoder.getNext(), root, criteriaBuilder);
+
+        if (decoder.getLogicalOperator().equals(LogicalOperator.AND))
+            return criteriaBuilder.and(predicate, nextPredicate);
+
+        return criteriaBuilder.or(predicate, nextPredicate);
+    }
+    
+    private Path<?> getPath(Path<?> parent, List<String> props) {
+        Path<?> p = parent.get(props.remove(0));
+
+        if (!props.isEmpty())
+            return getPath(p, props);
+
+        return p;
     }
     
 }
