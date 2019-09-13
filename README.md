@@ -55,5 +55,13 @@ Vamos tomar como exemplo a expressão abaixo:
 Para converter essa string na estrutura proposta por este projeto, temos o seguinte:
 
 ```java
-Expression expression = new QueryDecoder("nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)").getDecoder();
+QueryDecoder decoder = new QueryDecoder("nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)");
 ```
+
+Para utilizar a estrutura criada a partir da string, chamamos o método "decode" de __QueryDecoder__, passando a função (__java.util.function.Function__) que deve ser executada, a qual receberá como parâmetro a instância de __Decoder__ que foi criada a partir da string:
+
+```java
+decoder.decode(decoder -> System.out.println(decoder.toString()));
+```
+
+O código acima deve imprimir a mesma string de entrada no console, porém os métodos "toString" convertem a estrutura criada em uma nova string, e não apenas imprimem a string informada. Esse comportamento é utilizado para testes unitários, como pode ser visto na classe __com.alon.querydecoder.test.QueryDecoderTest__.
