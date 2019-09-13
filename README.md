@@ -37,3 +37,23 @@ A sintaxe da expressão mínima é a seguinte:
 Os operadores AND (E) e OR (OU) podem ser usados da forma habitual em consultas SQL, incluindo aninhamentos:
 
 * nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)
+
+
+#### Estrutura de objetos
+
+A interface __com.alon.querydecoder.Decoder__ abstrai uma expressão. Ela tem duas implementações: 
+
+* __com.alon.querydecoder.Expression__: representa uma expressão unitária.
+* __com.alon.querydecoder.Group__: representa um grupo de expressões unitárias que estão entre parênteses.
+
+Toda instância de __Decoder__ faz referência às suas próprias informações, (atributo, operador e valor), como à próxima expressão, que  uma outra instância de __Decoder__. Dessa maneira podemos trabalhar com todos os níveis de agrupamento das expressões unitárias.
+
+Vamos tomar como exemplo a expressão abaixo:
+
+* nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)
+
+Para converter essa string na estrutura proposta por este projeto, temos o seguinte:
+
+```java
+Expression expression = new QueryDecoder("nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)").getDecoder();
+```
