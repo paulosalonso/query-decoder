@@ -52,7 +52,7 @@ Vamos tomar como exemplo a expressão abaixo:
 
 * nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)
 
-Para converter essa string na estrutura proposta por este projeto, temos o seguinte:
+Para converter essa string em uma estrutura de objetos, temos o seguinte:
 
 ```java
 QueryDecoder queryDecoder = new QueryDecoder("nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)");
@@ -64,4 +64,4 @@ Para utilizar a estrutura criada a partir da string, chamamos o método "decode"
 queryDecoder.decode(decoder -> System.out.println(decoder.toString()));
 ```
 
-O código acima deve imprimir a mesma string de entrada no console, porém os métodos "toString" convertem a estrutura criada em uma nova string, e não apenas imprimem a string informada. Esse comportamento é utilizado para testes unitários, como pode ser visto na classe __com.alon.querydecoder.test.QueryDecoderTest__.
+O código acima deve imprimir no console a mesma string de entrada, porém os métodos "toString" convertem a estrutura criada em uma nova string, e não apenas imprimem a string informada. Esse comportamento é utilizado para testes unitários, como pode ser visto na classe __com.alon.querydecoder.test.QueryDecoderTest__.
