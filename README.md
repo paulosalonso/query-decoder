@@ -68,7 +68,7 @@ O código acima deve imprimir no console a mesma string de entrada, porém os m�
 
 ## SpringJpaSpecificationDecoder
 
-Como parte do projeto, e um exemplo da utilização, existe a classe __SpringJpaSpecificationDecoder__, que utiliza a classe __QueryDecoder__ para aplicar filtros em consultas utilizando o __Spring Data JPA__. Para isso, a classe __SpringJpaSpecificationDecoder__ implementa __org.springframework.data.jpa.domain.Specification__. Para utilizá-la, o repositório Spring deve implementar, além de JpaRepository, a interface __org.springframework.data.jpa.repository.JpaSpecificationExecutor__:
+Como parte do projeto, e um exemplo da utilização, existe a classe __SpringJpaSpecificationDecoder__, que utiliza a classe __QueryDecoder__ para aplicar filtros em consultas utilizando o __Spring Data JPA__. Para isso, a classe __SpringJpaSpecificationDecoder__ implementa __org.springframework.data.jpa.domain.Specification__. Para utilizá-la, o repositório Spring deve implementar, além de __org.springframework.data.jpa.repository.JpaRepository__, a interface __org.springframework.data.jpa.repository.JpaSpecificationExecutor__:
 
 ```java
 public interface PessoaRepository extends JpaRepository<Pessoa, Long>, JpaSpecificationExecutor<Pessoa> {
