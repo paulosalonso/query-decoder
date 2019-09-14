@@ -46,7 +46,7 @@ A interface __com.alon.querydecoder.Decoder__ abstrai uma expressão. Ela tem du
 * __com.alon.querydecoder.Expression__: representa uma expressão unitária.
 * __com.alon.querydecoder.Group__: representa um grupo de expressões unitárias que estão entre parênteses.
 
-Toda instância de __Decoder__ faz referência às suas próprias informações, (atributo, operador e valor), como à próxima expressão, que  uma outra instância de __Decoder__. Dessa maneira podemos trabalhar com todos os níveis de agrupamento das expressões unitárias.
+Toda instância de __Decoder__ faz referência às suas próprias informações (atributo, operador e valor), e à próxima expressão, que é uma outra instância de __Decoder__. Dessa maneira podemos trabalhar com todos os níveis de agrupamento das expressões unitárias.
 
 Vamos tomar como exemplo a expressão abaixo:
 
@@ -65,3 +65,27 @@ queryDecoder.decode(decoder -> System.out.println(decoder.toString()));
 ```
 
 O código acima deve imprimir no console a mesma string de entrada, porém os métodos "toString" convertem a estrutura criada em uma nova string, e não apenas imprimem a string informada. Esse comportamento é utilizado para testes unitários, como pode ser visto na classe __com.alon.querydecoder.test.QueryDecoderTest__.
+
+## SpringJpaSpecificationDecoder
+
+Como parte do projeto, e um exemplo da utilização, existe a classe __SpringJpaSpecificationDecoder__, que utiliza a classe __QueryDecoder__ para aplicar filtros em consultas utilizando o __Spring Data JPA__. Para isso, a classe __SpringJpaSpecificationDecoder__ implementa __org.springframework.data.jpa.domain.Specification__. Para utilizá-la, o repositório Spring deve implementar, além de JpaRepository, a interface __org.springframework.data.jpa.repository.JpaSpecificationExecutor__:
+
+```java
+public interface PessoaRepository extends JpaRepository<Pessoa, Long>, JpaSpecificationExecutor<Pessoa> {
+}
+```
+
+Assim, ficam disponíveis os métodos de __JpaSpecificatonExecutor__ que recebem um __Specification__ como parâmetro. __SpringJpaSpecificationDecoder__ pode ser usado da seguinte maneira:
+
+```java
+@Autowired
+private PessoaRepository repository;
+.
+.
+.
+Specification spec = new SpringJpaSpecificationDecoder("nome[CT]:Paulo");
+
+List<Pessoa> pessoas = this.repository.findAll(spec);
+```
+
+O código acima deve retornar uma lista com todas as pessoas que contém "Paulo" no nome.
