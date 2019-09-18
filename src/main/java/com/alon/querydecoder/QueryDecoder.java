@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 /**
  * 
- * Faz o parser de uma expressão no formato de string em uma estrutura de
+ * Faz o parse de uma expressão no formato de string em uma estrutura de
  * objetos que podem ser manipulados dinamicamente.
  * 
  * Sintaxe: atributo[operador]:valor
@@ -49,10 +49,14 @@ public class QueryDecoder<T> {
 
     protected Decoder decoder;
     
-    private final Function<Decoder, T> decodeFunction;
+    private Function<Decoder, T> decodeFunction;
 
-    public QueryDecoder(String query, Function<Decoder, T> decodeFunction) {
+    public QueryDecoder(String query) {
         this.decoder = this.createDecoder(query);
+    }
+    
+    public QueryDecoder(String query, Function<Decoder, T> decodeFunction) {
+        this(query);
         this.decodeFunction = decodeFunction;
     }
     
@@ -68,6 +72,15 @@ public class QueryDecoder<T> {
     }
     
     public T decode() {
+        if (this.decodeFunction == null)
+            throw new UnsupportedOperationException("The decoding function has not been entered.");
+        
         return this.decodeFunction.apply(this.decoder);
+    }
+    
+    public T decode(Function<Decoder, T> decodeFunction) {
+        this.decodeFunction = decodeFunction;
+        
+        return this.decode();
     }
 }
