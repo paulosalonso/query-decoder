@@ -4,12 +4,41 @@
     <groupId>com.alon</groupId>
     <artifactId>querydecoder</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>jar</packaging>    
+    <name>QueryDecoder</name>
+    <description>
+        O objetivo deste projeto é fornecer uma estrutura para desserialização de filtros a partir de uma string. A ideia surgiu a partir da necessidade de disponibilizar uma maneira de obter dados filtrados através de uma API, onde o filtro pode ser utilizado como uma URL query.
+    </description>
+    <url>https://github.com/entelgy-brasil</url>
+    <developers>
+        <developer>
+            <id>paulosalonso</id>
+            <name>Paulo Silas Alonso</name>
+            <email>paulo_alonso_@hotmail.com</email>
+        </developer>
+    </developers>    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-    </properties>
+    </properties>    
+    <distributionManagement>
+        <snapshotRepository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>    
+    <scm>        
+        <url>https://github.com/paulosalonso/query-decoder.git</url>
+        <connection>scm:git:https://github.com/paulosalonso/query-decoder.git</connection>
+        <developerConnection>scm:git:https://github.com/paulosalonso/query-decoder.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -40,25 +69,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
-    <distributionManagement>
-        <snapshotRepository>
-          <id>ossrh</id>
-          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-    
-    <scm>        
-        <connection>scm:git:https://github.com/paulosalonso/query-decoder.git</connection>
-        <developerConnection>scm:git:https://github.com/paulosalonso/query-decoder.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
-    
     <build>
         <plugins>            
             <plugin>
