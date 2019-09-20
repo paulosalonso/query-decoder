@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.alon</groupId>
     <artifactId>querydecoder</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,7 +56,7 @@
     <scm>        
         <connection>scm:git:https://github.com/paulosalonso/query-decoder.git</connection>
         <developerConnection>scm:git:https://github.com/paulosalonso/query-decoder.git</developerConnection>
-      <tag>v1-0-0</tag>
+      <tag>HEAD</tag>
   </scm>
     
     <build>
