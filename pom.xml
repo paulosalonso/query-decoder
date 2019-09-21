@@ -16,7 +16,14 @@
             <name>Paulo Silas Alonso</name>
             <email>paulo_alonso_@hotmail.com</email>
         </developer>
-    </developers>    
+    </developers>
+    <licenses>
+        <license>
+            <name>GNU General Public License v3.0</name>
+            <url>https://github.com/paulosalonso/query-decoder/blob/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
