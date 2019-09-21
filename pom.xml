@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.paulosalonso</groupId>
     <artifactId>querydecoder</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>    
     <name>QueryDecoder</name>
     <description>
@@ -44,7 +44,7 @@
         <url>https://github.com/paulosalonso/query-decoder.git</url>
         <connection>scm:git:https://github.com/paulosalonso/query-decoder.git</connection>
         <developerConnection>scm:git:https://github.com/paulosalonso/query-decoder.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.0.0</tag>
     </scm>
     <dependencies>
         <dependency>
