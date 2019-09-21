@@ -1,5 +1,6 @@
 # QueryDecoder
 
+###### Maven Dependency
 ```xml
 <dependency>
     <groupId>com.github.paulosalonso</groupId>
