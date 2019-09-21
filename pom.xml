@@ -9,7 +9,7 @@
     <description>
         O objetivo deste projeto é fornecer uma estrutura para desserialização de filtros a partir de uma string. A ideia surgiu a partir da necessidade de disponibilizar uma maneira de obter dados filtrados através de uma API, onde o filtro pode ser utilizado como uma URL query.
     </description>
-    <url>https://github.com/entelgy-brasil</url>
+    <url>https://github.com/paulosalonso/query-decoder</url>
     <developers>
         <developer>
             <id>paulosalonso</id>
