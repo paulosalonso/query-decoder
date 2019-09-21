@@ -2,9 +2,9 @@
 
 ```xml
 <dependency>
- <groupId>com.github.paulosalonso</groupId>
- <artifactId>querydecoder</artifactId>
- <version>1.0.0</version>
+    <groupId>com.github.paulosalonso</groupId>
+    <artifactId>querydecoder</artifactId>
+    <version>1.0.0</version>
 </dependency>
 ```
 
