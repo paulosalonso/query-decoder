@@ -1,7 +1,7 @@
-/home/paulo/NetBeansProjects/querydecoder/src/main/java/com/alon/querydecoder/LogicalOperator.java
-/home/paulo/NetBeansProjects/querydecoder/src/main/java/com/alon/querydecoder/impl/SpringJpaSpecificationDecoder.java
-/home/paulo/NetBeansProjects/querydecoder/src/main/java/com/alon/querydecoder/Expression.java
-/home/paulo/NetBeansProjects/querydecoder/src/main/java/com/alon/querydecoder/Decoder.java
-/home/paulo/NetBeansProjects/querydecoder/src/main/java/com/alon/querydecoder/QueryDecoder.java
-/home/paulo/NetBeansProjects/querydecoder/src/main/java/com/alon/querydecoder/Group.java
-/home/paulo/NetBeansProjects/querydecoder/src/main/java/com/alon/querydecoder/MatchType.java
+/home/paulo/Documentos/GitHub/query-decoder/src/main/java/com/alon/querydecoder/Decoder.java
+/home/paulo/Documentos/GitHub/query-decoder/src/main/java/com/alon/querydecoder/QueryDecoder.java
+/home/paulo/Documentos/GitHub/query-decoder/src/main/java/com/alon/querydecoder/Expression.java
+/home/paulo/Documentos/GitHub/query-decoder/src/main/java/com/alon/querydecoder/MatchType.java
+/home/paulo/Documentos/GitHub/query-decoder/src/main/java/com/alon/querydecoder/Group.java
+/home/paulo/Documentos/GitHub/query-decoder/src/main/java/com/alon/querydecoder/impl/SpringJpaSpecificationDecoder.java
+/home/paulo/Documentos/GitHub/query-decoder/src/main/java/com/alon/querydecoder/LogicalOperator.java
