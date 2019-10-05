@@ -77,4 +77,4 @@ O código acima deve imprimir no console a mesma string de entrada, porém os m�
 
 ## SpringJpaSpecificationDecoder
 
-A classe SpringJpaSpecificationDecoder foi movida para o projeto [Spring CRUD Base](https://github.com/paulosalonso/spring-crud-base)
+A classe SpringJpaSpecificationDecoder foi movida para o projeto [Spring CRUD Base](https://github.com/paulosalonso/spring-crud-base) a partir da versão 1.1.0.
