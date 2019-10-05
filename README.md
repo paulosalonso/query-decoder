@@ -5,7 +5,7 @@
 <dependency>
     <groupId>com.github.paulosalonso</groupId>
     <artifactId>querydecoder</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -77,24 +77,4 @@ O código acima deve imprimir no console a mesma string de entrada, porém os m�
 
 ## SpringJpaSpecificationDecoder
 
-Como parte do projeto, e um exemplo da utilização, existe a classe __SpringJpaSpecificationDecoder__, que utiliza a classe __QueryDecoder__ para aplicar filtros em consultas utilizando o __Spring Data JPA__. Para isso, a classe __SpringJpaSpecificationDecoder__ implementa __org.springframework.data.jpa.domain.Specification__. Para utilizá-la, o repositório Spring deve implementar, além de __org.springframework.data.jpa.repository.JpaRepository__, a interface __org.springframework.data.jpa.repository.JpaSpecificationExecutor__:
-
-```java
-public interface PessoaRepository extends JpaRepository<Pessoa, Long>, JpaSpecificationExecutor<Pessoa> {
-}
-```
-
-Assim, ficam disponíveis os métodos de __JpaSpecificatonExecutor__ que recebem um __Specification__ como parâmetro. __SpringJpaSpecificationDecoder__ pode ser usado da seguinte maneira:
-
-```java
-@Autowired
-private PessoaRepository repository;
-.
-.
-.
-Specification spec = new SpringJpaSpecificationDecoder("nome[CT]:Paulo");
-
-List<Pessoa> pessoas = this.repository.findAll(spec);
-```
-
-O código acima deve retornar uma lista com todas as pessoas que contém "Paulo" no nome.
+A classe SpringJpaSpecificationDecoder foi movida para o projeto [Spring CRUD Base](https://github.com/paulosalonso/spring-crud-base)
