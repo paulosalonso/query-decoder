@@ -1,50 +1,26 @@
 package com.alon.querydecoder;
 
-/**
- * 
- * Abstrai agrupamentos de expressões dentro de parênteses
- * 
- * @author paulo
- *
- */
-public class Group implements Decoder {
-    protected Decoder decoder;
-    protected LogicalOperator logicalOperator;
-    protected Decoder next;
+public class GroupExpressionParser {
     
-    public Group(String query) {
-        parse(query);
-    }
+    private GroupExpression building;
 
-    public Decoder getDecoder() {
-        return decoder;
-    }
-    
-    @Override
-    public LogicalOperator getLogicalOperator() {
-        return this.logicalOperator;
-    }
+    private GroupExpressionParser(String expression) {
 
-    @Override
-    public Decoder getNext() {
-        return next;
-    }
-    
-    @Override
-    public final Group parse(String expression) {
-        
+        ExpressionParser.validateStartOfExpression(expression);
         this.checkIfStartsWithParetheses(expression);
+
+        this.building = new GroupExpression();
         
         int opened = 0;
         int closed = 0;
-        StringBuilder strBuilder = new StringBuilder();
+        StringBuilder currentExpressionBuilder = new StringBuilder();
         
         expression = this.normalize(expression);
         
         for (int i = 0; i < expression.length(); i++) {            
             char currentChar = expression.charAt(i);
             
-            strBuilder.append(currentChar);
+            currentExpressionBuilder.append(currentChar);
 
             if (currentChar == '(')
                 opened++;
@@ -52,12 +28,9 @@ public class Group implements Decoder {
                 closed++;
             
             if (opened == closed) {
-                String currentExpression = this.removeParentheses(strBuilder.toString());
+                String currentExpression = this.removeParentheses(currentExpressionBuilder.toString());
                 
-                if (currentExpression.startsWith(("(")))
-                    this.decoder = new Group(currentExpression);
-                else
-                    this.decoder = new Expression(currentExpression);
+                this.building.setGroupedExpression(ExpressionParser.parse(currentExpression));
                 
                 break;
             }            
@@ -65,20 +38,26 @@ public class Group implements Decoder {
         
         this.checkParenthesesCount(opened, closed);
         
-        expression = this.removeParsedGroup(expression, strBuilder.toString());
+        expression = this.removeParsedGroup(expression, currentExpressionBuilder.toString());
         
         if (!expression.isBlank()) {
-            this.logicalOperator = this.determineLogicalOperator(expression);
+            if (this.nextCharIsRightParenthesis(expression))
+                throw new IllegalArgumentException(
+                        String.format("The expression closes more parentheses than it opens: <%s)>.", currentExpressionBuilder.toString()));
+
+            this.building.setLogicalOperator(this.determineLogicalOperator(expression));
             
             expression = this.removeLogicalOperatorFromStart(expression);
             
-            if (expression.startsWith("("))
-                this.next = new Group(expression);
-            else
-                this.next = new Expression(expression);
+            this.building.setNext(ExpressionParser.parse(expression));
         }
         
-        return this;
+    }
+    
+    public static GroupExpression parse(String expression) {
+        
+        return new GroupExpressionParser(expression).building;
+    
     }
     
     private void checkIfStartsWithParetheses(String expression) {
@@ -87,15 +66,15 @@ public class Group implements Decoder {
             throw new IllegalArgumentException("A group must start with parentheses");
         
     }
+
+    private boolean nextCharIsRightParenthesis(String expression) {
+        return expression.startsWith(")");
+    }
     
     private void checkParenthesesCount(int opened, int closed) {
         
         if (opened > closed)
-            throw new IllegalArgumentException(
-                            "The expression is incorrect. " + 
-                            "There are more open parentheses " + 
-                            "than closed parentheses."
-            );
+            throw new IllegalArgumentException("The expression opens more parentheses than it closes.");
         
     }
     
@@ -123,10 +102,13 @@ public class Group implements Decoder {
     
     private LogicalOperator determineLogicalOperator(String expression) {
         
-        if (expression.startsWith(LogicalOperator.AND.name()))
+        if (expression.startsWith("AND "))
             return LogicalOperator.AND;
+        else if (expression.startsWith("OR "))
+            return LogicalOperator.OR;
         
-        return LogicalOperator.OR;
+        throw new IllegalArgumentException(
+                String.format("The logical operator was not found in [%s].", expression));
         
     }
     
@@ -141,13 +123,4 @@ public class Group implements Decoder {
         
     }
     
-    @Override
-    public String toString() {
-        String result = String.format("(%s)", decoder);
-        
-        if (next != null)
-            result = String.format("%s %s %s", result, this.logicalOperator, this.next);
-        
-        return result;
-    }
 }

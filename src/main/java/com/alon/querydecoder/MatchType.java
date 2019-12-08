@@ -8,5 +8,7 @@ public enum MatchType {
     GTE,
     GT,
     BT,
-    IN;
+    IN,
+    SW,
+    EW;
 }
