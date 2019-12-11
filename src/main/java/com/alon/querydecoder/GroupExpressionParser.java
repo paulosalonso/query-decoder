@@ -7,7 +7,7 @@ public class GroupExpressionParser {
     private GroupExpressionParser(String expression) {
 
         ExpressionParser.validateStartOfExpression(expression);
-        this.checkIfStartsWithParetheses(expression);
+        this.checkIfStartsWithParenthesis(expression);
 
         this.building = new GroupExpression();
         
@@ -60,7 +60,7 @@ public class GroupExpressionParser {
     
     }
     
-    private void checkIfStartsWithParetheses(String expression) {
+    private void checkIfStartsWithParenthesis(String expression) {
         
         if (!expression.startsWith("("))
             throw new IllegalArgumentException("A group must start with parentheses");
