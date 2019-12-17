@@ -63,14 +63,14 @@ Os operadores AND (E) e OR (OU) podem ser usados da forma habitual em consultas 
 * nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)
 
 
-#### Estrutura de objetos
+#### Utilização
 
-A interface __com.alon.querydecoder.Decoder__ abstrai uma expressão. Ela tem duas implementações: 
+A interface __com.alon.querydecoder.Expression__ representa uma expressão. Ela tem duas implementações: 
 
-* __com.alon.querydecoder.Expression__: representa uma expressão unitária.
-* __com.alon.querydecoder.Group__: representa um grupo de expressões unitárias que estão entre parênteses.
+* __com.alon.querydecoder.SingleExpression__: representa uma expressão unitária.
+* __com.alon.querydecoder.GroupExpression__: representa um grupo de expressões unitárias que estão entre parênteses.
 
-Toda instância de __Decoder__ faz referência às suas próprias informações (atributo, operador e valor), e à próxima expressão, que é uma outra instância de __Decoder__. Dessa maneira podemos trabalhar com todos os níveis de agrupamento das expressões unitárias.
+Toda instância de __Expression__ faz referência às suas próprias informações e à próxima expressão, que é uma outra instância de __Expression__. Dessa maneira podemos trabalhar com todos os níveis de agrupamento das expressões unitárias.
 
 Vamos tomar como exemplo a expressão abaixo:
 
@@ -79,17 +79,31 @@ Vamos tomar como exemplo a expressão abaixo:
 Para converter essa string em uma estrutura de objetos, temos o seguinte:
 
 ```java
-QueryDecoder queryDecoder = new QueryDecoder("nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)");
+Expression expression = ExpressionParser.parse("nome:João da Silva AND (valor[LT]:100 OR valor[GT]:500)");
 ```
 
-Para utilizar a estrutura criada a partir da string, chamamos o método "decode" de __QueryDecoder__, passando a função (__java.util.function.Function__) que deve ser executada, a qual receberá como parâmetro a instância de __Decoder__ que foi criada a partir da string:
+Como saída, teremos:
 
-```java
-queryDecoder.decode(decoder -> System.out.println(decoder.toString()));
-```
-
-O código acima deve imprimir no console a mesma string de entrada, porém os métodos "toString" convertem a estrutura criada em uma nova string, e não apenas imprimem a string informada. Esse comportamento é utilizado para testes unitários, como pode ser visto na classe __com.alon.querydecoder.test.QueryDecoderTest__.
-
-## SpringJpaSpecificationDecoder
-
-A classe SpringJpaSpecificationDecoder foi movida para o projeto [Spring CRUD Base](https://github.com/paulosalonso/spring-crud-base/blob/master/README.md#springjpaspecificationdecoder) a partir da versão 1.1.0.
+* SingleExpression
+    * field: nome
+    * match: Match
+        * negated: false
+        * type: MatchType.EQ
+    * value: João da Silva
+    * logicalOperator: LogicalOperator.AND
+    * next: GroupExpression
+        * groupedExpression: SingleExpression
+            * field: valor
+            * match: Match
+                * negated: false
+                * type: MatchType.LT
+            * value: 100
+        * logicalOperator: LogicalOperator.OR
+        * next: SingleExpression
+            * field: valor
+            * match: Match
+                * negated: false
+                * type: MatchType.GT
+            * value: 500
+            * next: null
+            
