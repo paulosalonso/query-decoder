@@ -22,6 +22,8 @@ A sintaxe da expressão mínima é a seguinte:
 | Operador        | Abreviação de         | Função                                                        |
 |-----------------|-----------------------|---------------------------------------------------------------|
 | EQ ou suprimido | Equal                 | Verifica se os valores são iguais                             |
+| SW              | Starts With           | Verifica se um texto começa com o valor informado             |
+| EW              | Ends With             | Verifica se um texto termina com o valor informado            |
 | CT              | ConTains              | Verifica se um texto contém determinado texto em seu conteúdo |
 | LT              | Less Than             | Verifica se é menor que determinado valor                     |
 | LTE             | Less Than or Equal    | Verifica se é menor ou igual a determinado valor              |
@@ -30,7 +32,7 @@ A sintaxe da expressão mínima é a seguinte:
 | BT              | BeTween               | Verifica se está entre dois valores                           |
 | IN              | IN                    | Verifica se está entre uma lista de valores                   |
 
-#### Exemplos
+##### Exemplos
  
 * nome[EQ]:João da Silva, nome:João da Silva 
 * nome[CT]:João
@@ -40,6 +42,19 @@ A sintaxe da expressão mínima é a seguinte:
 * valor[GTE]:100
 * valor[BT]:100-200
 * valor[IN]:100,120,150
+
+##### Operadores negados
+
+É possível negar os operadores iniciando-os com 'N'. Por exemplo:
+
+* nome[NEQ]:João da Silva
+* nome[NCT]:João
+* valor[NLT]:100
+* valor[NLTE]:100
+* valor[NGT]:100
+* valor[NGTE]:100
+* valor[NBT]:100-200
+* valor[NIN]:100,120,150
 
 #### Operadores lógicos (AND/OR)
 
