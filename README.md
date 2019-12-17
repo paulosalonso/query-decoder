@@ -98,12 +98,12 @@ Como saída, teremos:
                 * negated: false
                 * type: MatchType.LT
             * value: 100
-        * logicalOperator: LogicalOperator.OR
-        * next: SingleExpression
-            * field: valor
-            * match: Match
-                * negated: false
-                * type: MatchType.GT
-            * value: 500
-            * next: null
+            * logicalOperator: LogicalOperator.OR
+            * next: SingleExpression
+                * field: valor
+                * match: Match
+                    * negated: false
+                    * type: MatchType.GT
+                * value: 500
+                * next: null
             
